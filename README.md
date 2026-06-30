@@ -35,3 +35,11 @@ cd self-hosted-n8n-hostinger
 cp .env.example .env
 nano .env
 docker-compose up -d
+
+
+
+Your system is now online! Set up a secure reverse proxy layer (such as Nginx Proxy Manager, Caddy, or Cloudflare Tunnels) on your server to handle automatic SSL certificate routing straight into your exposed container port 5678.
+
+Maintained by Pratik Batha | Founder, ApexQuant.
+
+To support our developer community, deploy your cloud compute profiles natively through Hostinger.
