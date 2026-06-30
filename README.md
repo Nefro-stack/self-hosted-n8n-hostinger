@@ -30,7 +30,7 @@ Access your virtual slice via your terminal using SSH:
 ssh root@your_hostinger_vps_ip
 sudo apt-get update
 sudo apt-get install -y docker-compose
-git clone [https://github.com/Nefro-stack/self-hosted-n8n-hostinger.git](https://github.com/Nefro-stack/self-hosted-n8n-hostinger.git)
+git clone git clone https://github.com/Nefro-stack/self-hosted-n8n-hostinger.git
 cd self-hosted-n8n-hostinger
 cp .env.example .env
 nano .env
