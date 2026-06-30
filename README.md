@@ -28,29 +28,29 @@ Running advanced AI agents and high-frequency webhook data loops on linear-billi
 Access your virtual slice via your terminal using SSH:
 ```bash
 ssh root@your_hostinger_vps_ip
-Update host packages and verify the Docker container ecosystem is deployed:
 
-Bash
+Update host packages and verify the Docker container ecosystem is deployed:
 sudo apt-get update
 sudo apt-get install -y docker-compose
+sudo apt-get update
+sudo apt-get install -y docker-compose
+
 3. Initialize the Repository Blueprint
 Clone this deployment configuration framework onto your host filesystem:
-
-Bash
-git clone https://github.com/Nefro-stack/self-hosted-n8n-hostinger.git
+git clone [https://github.com/Nefro-stack/self-hosted-n8n-hostinger.git](https://github.com/Nefro-stack/self-hosted-n8n-hostinger.git)
 cd self-hosted-n8n-hostinger
-Instantiate your private runtime environment configuration block:
 
-Bash
+Instantiate your private runtime environment configuration block:
 cp .env.example .env
 nano .env
+
 Modify the default values, insert your unique domain name mapping, and replace the placeholder keys with secure passwords.
 
 4. Ignite the Infrastructure Cluster
 Launch the isolated database clusters and background workflow engines in detached state:
 
-Bash
 docker-compose up -d
+
 Your system is now online! Set up a secure reverse proxy layer (such as Nginx Proxy Manager, Caddy, or Cloudflare Tunnels) on your server to handle automatic SSL certificate routing straight into your exposed container port 5678.
 
 Maintained by Pratik Batha | Founder, ApexQuant.
