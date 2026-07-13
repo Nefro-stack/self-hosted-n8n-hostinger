@@ -10,16 +10,6 @@ We replaced expensive cloud automation platforms with a scalable, self-hosted no
 - **OS/Template:** Ubuntu 24.04 with n8n (One-click deployment)
 - **Included Stack:** n8n Community Edition, Docker, PostgreSQL, Traefik, Let's Encrypt SSL.
 
-## 📂 Included Blueprints (JSON Files)
-
-Import these directly into your n8n workspace to replicate our exact agency workflows:
-
-1. **AI Gmail Brain Workflow (`ai-gmail-brain.json`)**
-   - Automatically classifies, labels, and drafts email replies using Gemini AI.
-2. **Lead Qualifier Pipeline (`lead-qualifier.json`)**
-   - Enriches and scores incoming leads using Hugging Face and Pinecone integrations.
-3. *(Add your other JSON workflow files here...)*
-
 ## 🛠️ Quick Start Guide
 
 1. **Provision:** Get a Hostinger VPS and select the `Ubuntu 24.04 with n8n` template during checkout.
