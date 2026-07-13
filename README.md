@@ -1,24 +1,44 @@
-# Self-Hosted n8n on Hostinger VPS - Production Blueprints
+# Self-Hosted n8n Infrastructure on Hostinger (Production-Ready)
 
-Welcome to the official repository for the **ApexQuant** self-hosted n8n infrastructure. This repo contains the raw JSON blueprints and setup references for running n8n Community Edition in production on a Hostinger VPS.
+Welcome to the official infrastructure repository for running a self-hosted **n8n Community Edition** node. We use this setup at [ApexQuant](https://apexquant.substack.com/) to process tens of thousands of automated tasks monthly while maintaining total control over our data and unit economics.
 
-## 🚀 The Infrastructure
+By migrating away from cloud platforms like Make.com or Zapier, this Hostinger VPS architecture creates massive cost leverage for founders and agency owners scaling their operations.
 
-We replaced expensive cloud automation platforms with a scalable, self-hosted node. 
-
-- **Hosting Provider:** Hostinger (KVM1 or KVM2 Plan)
-- **OS/Template:** Ubuntu 24.04 with n8n (One-click deployment)
-- **Included Stack:** n8n Community Edition, Docker, PostgreSQL, Traefik, Let's Encrypt SSL.
-
-## 🛠️ Quick Start Guide
-
-1. **Provision:** Get a Hostinger VPS and select the `Ubuntu 24.04 with n8n` template during checkout.
-2. **Setup:** Navigate to `https://n8n.[your-domain]` immediately after the server boots to complete the setup wizard.
-3. **Import:** In your n8n dashboard, click **Import from File**, select any JSON file from this repository, and activate your workflow.
-
-## 📈 Scaling
-
-If your task execution volume (e.g., 50,000+ tasks/month) begins to bottleneck your KVM1 or KVM2 plan, you can vertically scale up to KVM4 directly from your Hostinger dashboard without needing to migrate your database or rebuild networks.
+Join 22,000+ founders getting weekly AI and automation playbooks from my newsletter: **[Subscribe to ApexQuant](https://apexquant.substack.com/)**.
 
 ---
-*Created by Patrick Blaze for the ApexQuant community. Join 22,000+ founders scaling their operations with AI at [ApexQuant](https://apexquant.substack.com/).*
+
+## 🏗️ System Architecture
+
+This deployment relies on a containerized microservices architecture to ensure stability, easy backups, and seamless scaling. The Hostinger `Ubuntu 24.04 with n8n` template provisions the following stack out of the box:
+
+*   **n8n Node:** The core application engine (Community Edition).
+*   **PostgreSQL:** Dedicated relational database for storing workflow states, credentials, and execution history. Much more stable for high-volume execution than the default SQLite setup.
+*   **Traefik:** Edge router and reverse proxy. Handles automatic SSL termination and routes incoming webhook traffic securely.
+*   **Docker & Docker Compose:** The orchestration layer keeping the services isolated and automatically restarting them on failure.
+*   **Let's Encrypt:** Automated TLS/SSL certificate generation and renewal.
+
+---
+
+## 🚀 Deployment Guide
+
+### 1. Provision the Server
+1. Spin up a **Hostinger VPS** (KVM1 is sufficient for starting out; KVM2 is recommended for production).
+2. During the OS selection phase, choose the **Ubuntu 24.04 with n8n** template.
+3. Assign your domain/subdomain to the VPS IP address in your DNS settings (e.g., `n8n.yourdomain.com`).
+
+### 2. Initial Setup
+1. Once the VPS finishes provisioning, navigate to `https://[your-vps-ip]` or `https://n8n.[your-domain]`.
+2. Complete the initial n8n setup wizard to create your root admin account.
+
+---
+
+## ⚙️ Advanced Configuration & Environment Tuning
+
+While the one-click deployment works immediately, running a production server requires some tuning. SSH into your Hostinger VPS to modify your environment variables.
+
+Navigate to the n8n installation directory (usually `/opt/n8n` or `/root/n8n` depending on the template structure):
+
+```bash
+cd /opt/n8n
+nano .env
