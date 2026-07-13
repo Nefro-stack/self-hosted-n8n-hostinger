@@ -1,44 +1,65 @@
-# Self-Hosted n8n Infrastructure on Hostinger (Production-Ready)
+Self-Hosted n8n Infrastructure on Hostinger (Production-Ready)
+Welcome to the infrastructure repository for the ApexQuant self-hosted n8n node. This repo provides the production-grade docker-compose configuration and environment structure required to run n8n at scale on a Hostinger VPS.
 
-Welcome to the official infrastructure repository for running a self-hosted **n8n Community Edition** node. We use this setup at [ApexQuant](https://apexquant.substack.com/) to process tens of thousands of automated tasks monthly while maintaining total control over our data and unit economics.
+We use this exact setup to process tens of thousands of automated tasks monthly—moving away from the compounding costs of Make.com and Zapier to maintain total control over our data and unit economics.
 
-By migrating away from cloud platforms like Make.com or Zapier, this Hostinger VPS architecture creates massive cost leverage for founders and agency owners scaling their operations.
+Join 22,000+ founders getting weekly AI and automation playbooks from my newsletter: Subscribe to ApexQuant.
 
-Join 22,000+ founders getting weekly AI and automation playbooks from my newsletter: **[Subscribe to ApexQuant](https://apexquant.substack.com/)**.
+🏗️ Repository Structure
+docker-compose.yml: The orchestration file defining the n8n container, the PostgreSQL database instance, and the Traefik reverse proxy.
 
----
+.env.example: The template for your environment variables. Copy this to a file named .env to configure your instance.
 
-## 🏗️ System Architecture
+LICENSE: MIT License.
 
-This deployment relies on a containerized microservices architecture to ensure stability, easy backups, and seamless scaling. The Hostinger `Ubuntu 24.04 with n8n` template provisions the following stack out of the box:
+🚀 Deployment Guide
+1. Provision the Server
+Spin up a Hostinger VPS (KVM1 is sufficient for starting out; KVM2 is recommended for production).
 
-*   **n8n Node:** The core application engine (Community Edition).
-*   **PostgreSQL:** Dedicated relational database for storing workflow states, credentials, and execution history. Much more stable for high-volume execution than the default SQLite setup.
-*   **Traefik:** Edge router and reverse proxy. Handles automatic SSL termination and routes incoming webhook traffic securely.
-*   **Docker & Docker Compose:** The orchestration layer keeping the services isolated and automatically restarting them on failure.
-*   **Let's Encrypt:** Automated TLS/SSL certificate generation and renewal.
+During the OS selection, choose the Ubuntu 24.04 with n8n template.
 
----
+Point your domain A-record to the VPS IP address.
 
-## 🚀 Deployment Guide
+2. Configure Environment
+Navigate to your installation directory (e.g., /opt/n8n) and set up your environment variables:
 
-### 1. Provision the Server
-1. Spin up a **Hostinger VPS** (KVM1 is sufficient for starting out; KVM2 is recommended for production).
-2. During the OS selection phase, choose the **Ubuntu 24.04 with n8n** template.
-3. Assign your domain/subdomain to the VPS IP address in your DNS settings (e.g., `n8n.yourdomain.com`).
+Bash
+# Copy the example to active .env
+cp .env.example .env
 
-### 2. Initial Setup
-1. Once the VPS finishes provisioning, navigate to `https://[your-vps-ip]` or `https://n8n.[your-domain]`.
-2. Complete the initial n8n setup wizard to create your root admin account.
-
----
-
-## ⚙️ Advanced Configuration & Environment Tuning
-
-While the one-click deployment works immediately, running a production server requires some tuning. SSH into your Hostinger VPS to modify your environment variables.
-
-Navigate to the n8n installation directory (usually `/opt/n8n` or `/root/n8n` depending on the template structure):
-
-```bash
-cd /opt/n8n
+# Edit your configuration
 nano .env
+Ensure your WEBHOOK_URL and database credentials are set correctly in the .env file before launching.
+
+3. Launch the Stack
+Initialize your production environment with:
+
+Bash
+docker compose up -d
+⚙️ Advanced Tuning & Performance
+High-volume production environments require fine-tuning to prevent memory bottlenecks.
+
+Optimization in .env
+Update your .env settings to manage data lifecycle and memory allocation:
+
+Code snippet
+# Database Pruning (Crucial for high-volume execution)
+EXECUTIONS_DATA_PRUNE=true
+EXECUTIONS_DATA_MAX_AGE=168 
+EXECUTIONS_DATA_PRUNE_MAX_COUNT=10000
+
+# Memory Allocation (Adjust based on your KVM plan)
+# For KVM2 (8GB RAM), we recommend setting:
+NODE_OPTIONS="--max-old-space-size=6144"
+After modifying the .env, apply changes using:
+
+Bash
+docker compose down && docker compose up -d
+🛠️ Maintenance Commands
+Action	Command
+Check Logs	docker compose logs -f n8n
+Update n8n	docker compose pull && docker compose up -d
+Clear Storage	docker system prune -a --volumes
+Maintained by Pratik Batha.
+
+Get the blueprints and automations we run on this stack at ApexQuant.
