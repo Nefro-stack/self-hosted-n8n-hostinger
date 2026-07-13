@@ -1,17 +1,16 @@
-Markdown# Self-Hosted n8n Infrastructure on Hostinger
+# Self-Hosted n8n Workflow Library
+This repository contains the production-ready n8n workflow JSON files for the ApexQuant automation stack, optimized for use with the Hostinger 1-click n8n VPS template.
 
-This repository contains the production-ready infrastructure to run **n8n Community Edition** on a Hostinger VPS. We use this exact stack at [ApexQuant](https://apexquant.substack.com/) to process thousands of automations without the exorbitant costs of cloud platforms like Make.com or Zapier.
+## How to Use
+1. Provision your server using the official Hostinger "Ubuntu 24.04 with n8n" template.
+2. Access your n8n dashboard via your domain.
+3. Download the `.json` files from the `/workflows` folder in this repository.
+4. In your n8n instance, click "Import from File" and upload the JSON to instantly deploy the workflow logic.
 
-**Join 22,000+ founders:** [**Subscribe to ApexQuant**](https://apexquant.substack.com/) for weekly automation playbooks.
+## Workflows Included
+*   **LinkedIn Automation:** Automates connection requests and profile data retrieval (built to work with official LinkedIn API capabilities).
+*   **WhatsApp Chatbot:** Document-augmented chat workflow for query management.
 
-## 🚀 Quick Start
-
-### 1. Provision & Clone
-1. Spin up a Hostinger VPS with the **Ubuntu 24.04 with n8n** template.
-2. SSH into your server and navigate to your folder:
-   ```bash
-   cd /opt/n8n
-2. Configure EnvironmentCopy the example file to a new .env file:Bashcp .env.example .env
-Open the file to add your domain and secure passwords:Bashnano .env
-3. LaunchInitialize your production stack:Bashdocker compose up -d
-🛠️ MaintenanceCommandPurposedocker compose logs -f n8nView live logs for debuggingdocker compose pull && docker compose up -dUpdate to the latest n8n versiondocker system prune -aClean up unused images/volumesMaintained by Pratik Batha.Get the exact AI automation blueprints we use on this stack at ApexQuant.
+## Requirements
+*   A Hostinger VPS with the official n8n template pre-installed.
+*   n8n Community Edition (included with the template).
