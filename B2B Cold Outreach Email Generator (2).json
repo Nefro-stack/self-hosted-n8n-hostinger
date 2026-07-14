@@ -1,0 +1,406 @@
+{
+  "name": "B2B Cold Outreach Email Generator",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1UDVLvSR-nv-MizkIPbiSIEMhIHpgnUv4g6xbLeeLBm8",
+          "mode": "list",
+          "cachedResultName": "ApexQuant Leads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UDVLvSR-nv-MizkIPbiSIEMhIHpgnUv4g6xbLeeLBm8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UDVLvSR-nv-MizkIPbiSIEMhIHpgnUv4g6xbLeeLBm8/edit#gid=0"
+        },
+        "event": "rowAdded",
+        "options": {}
+      },
+      "id": "09c09a9f-d89f-48c1-a6a5-372020d7e184",
+      "name": "New Row in Google Sheets",
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        240,
+        304
+      ],
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "a9P86RviScnm1Uhl",
+          "name": "Google Sheets Trigger account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "conditions": [
+            {
+              "leftValue": "={{ $json.output }}",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              },
+              "rightValue": "SUBJECT:"
+            },
+            {
+              "leftValue": "={{ $json.output }}",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              },
+              "rightValue": "EMAIL:"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a26a6491-398a-4c75-bee7-7cf31912dc7f",
+      "name": "Quality Check",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        816,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1",
+              "name": "emailSubject",
+              "value": "={{ $json.output.split(\"SUBJECT:\")[1].split(\"EMAIL:\")[0].trim() }}",
+              "type": "string"
+            },
+            {
+              "id": "2",
+              "name": "emailBody",
+              "value": "={{ $json.output.split(\"EMAIL:\")[1].trim() }}",
+              "type": "string"
+            },
+            {
+              "id": "3",
+              "name": "Email",
+              "value": "={{ $(\"New Row in Google Sheets\").item.json.Email }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "aa5423ee-39ba-47ee-9df8-fbfe9d61f139",
+      "name": "Parse Email Parts",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1040,
+        208
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "draft",
+        "subject": "={{ $json.emailSubject }}",
+        "message": "={{ $json.emailBody }}",
+        "options": {
+          "sendTo": "={{ $json.Email }}"
+        }
+      },
+      "id": "ceeee053-04b4-4e09-8bb1-54671b7cce33",
+      "name": "Create Gmail Draft",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1264,
+        208
+      ],
+      "webhookId": "68491c4d-0c58-4d5a-9bf3-fa2f32bd24b0",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "kbgiu1u2SV7t5fIC",
+          "name": "Gmail account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1UDVLvSR-nv-MizkIPbiSIEMhIHpgnUv4g6xbLeeLBm8",
+          "mode": "list",
+          "cachedResultName": "ApexQuant Leads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UDVLvSR-nv-MizkIPbiSIEMhIHpgnUv4g6xbLeeLBm8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UDVLvSR-nv-MizkIPbiSIEMhIHpgnUv4g6xbLeeLBm8/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Email": "nefro992@gmail.com"
+          },
+          "matchingColumns": [
+            "Email"
+          ],
+          "schema": [
+            {
+              "id": "First Name",
+              "displayName": "First Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Company",
+              "displayName": "Company",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Roll",
+              "displayName": "Roll",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Website URL",
+              "displayName": "Website URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "b1ce80da-50b5-410d-8c89-35ce016cae99",
+      "name": "Update Sheet Status",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1488,
+        208
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "pxhI3O9rq2qzatJo",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1",
+              "name": "error",
+              "value": "AI output did not contain SUBJECT: and EMAIL: format",
+              "type": "string"
+            },
+            {
+              "id": "2",
+              "name": "rawResponse",
+              "value": "={{ $json.output }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "c305e987-5ca7-406a-b80f-bf32d2abefca",
+      "name": "Log Error",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1040,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ \"First Name: \" + $json[\"First Name\"] + \"\\nCompany: \" + $json.Company + \"\\nRole: \" + $json.Roll }}",
+        "options": {
+          "systemMessage": "You are a B2B cold outreach expert.\nWrite a personalized cold email using only the company name, person name and role provided.\n\nRules:\n- Open with one specific observation about their type of business\n- Mention a likely pain point they have\n- End with a soft question CTA\n- Under 120 words total\n- Sound human, not AI generated\n\nOutput ONLY in this format, nothing else:\nSUBJECT: [subject line under 8 words]\nEMAIL: [3 sentence email body]"
+        }
+      },
+      "id": "8a823809-8741-417d-8ece-43bf0d1ef44d",
+      "name": "AI Email Writer (Groq)",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        464,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "model": "llama-3.3-70b-versatile",
+        "options": {
+          "maxTokensToSample": 500,
+          "temperature": 0.7
+        }
+      },
+      "id": "59f5b155-5155-4f96-8cf8-df422815b3d3",
+      "name": "Groq Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        512,
+        528
+      ],
+      "credentials": {
+        "groqApi": {
+          "id": "tdvWBhbcMhP8jbt1",
+          "name": "Groq account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "New Row in Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "AI Email Writer (Groq)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Quality Check": {
+      "main": [
+        [
+          {
+            "node": "Parse Email Parts",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Log Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Email Parts": {
+      "main": [
+        [
+          {
+            "node": "Create Gmail Draft",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Gmail Draft": {
+      "main": [
+        [
+          {
+            "node": "Update Sheet Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Email Writer (Groq)": {
+      "main": [
+        [
+          {
+            "node": "Quality Check",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Email Writer (Groq)",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "f2e7bb95-32b5-4cb5-a070-3c2b4a994e84",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "f9b781da99b756dabd0896c98735190dca68246d28b43c45820ffde7368c7f3f"
+  },
+  "id": "dFxKLHR4LdVSj4SE",
+  "tags": []
+}
