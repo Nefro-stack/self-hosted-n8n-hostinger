@@ -1,10 +1,10 @@
 # Self-Hosted n8n Workflow Templates (Hostinger VPS Optimized)
 
-This repository contains production-ready, cloneable n8n workflow templates designed to run on a flat-cost, self-hosted Hostinger VPS. By migrating your workflows off managed platforms (like Zapier, Make, or n8n Cloud), you can run unlimited executions without usage-metered billing.
+This repository contains production-ready, cloneable n8n workflow templates designed to run on a flat-cost, self-hosted Hostinger VPS. By migrating your heavy AI and outreach pipelines off managed platforms (like Zapier, Make, or n8n Cloud), you can run unlimited executions without usage-metered billing.
 
 ## 🚀 Infrastructure Setup
 
-Instead of manually configuring Docker, Traefik, PostgreSQL, and SSL certs via the terminal, this guide uses Hostinger's pre-configured **Ubuntu 24.04 with n8n** VPS template.
+Instead of manually configuring Docker, Traefik, PostgreSQL, and SSL certs via the terminal, this architecture uses Hostinger's pre-configured **Ubuntu 24.04 with n8n** VPS template.
 
 1. Pick a KVM plan on [Hostinger VPS](https://www.hostinger.com/self-hosted-n8n).
 2. Select the **Ubuntu 24.04 with n8n** template during setup.
@@ -18,16 +18,15 @@ For advanced configurations, environment variables, or queue-mode scaling, refer
 
 To import these workflows directly into your self-hosted n8n canvas, download the JSON files from this repository:
 
-### 1. Inbound Lead Capture & Enrichment (`inbound-lead-capture.json`)
-A production-ready pipeline for capturing incoming leads via webhook, deduping them against a local database, and routing notifications.
-* **Nodes used:** Webhook, HTTP Request (Enrichment), PostgreSQL (Deduplication), Slack/Email notifications.
-* **How to use:** Import the JSON file, configure your PostgreSQL credentials, and add your webhook URL to your landing page form.
+### 1. WhatsApp AI Chatbot with Text, Image, & PDF Automation (`whatsapp-ai-chatbot-text-image-pdf-automation.json`)
+An advanced, multi-modal AI customer support flow capable of handling inbound text messages, processing user-uploaded images/PDFs, and returning context-aware AI responses via WhatsApp.
+* **Nodes used:** Webhook, Advanced AI (OpenAI/Gemini), Code Node (Binary data parsing for PDFs/Images), WhatsApp Business Platform.
+* **Production Note:** The WhatsApp Business Platform requires an official Meta Developer Account, business verification, and pre-approved message templates. 
 
-### 2. Document-Augmented WhatsApp Support Assistant (`whatsapp-support-assistant.json`)
-An AI-powered customer support flow that references internal documents to answer questions via WhatsApp.
-* **Nodes used:** Webhook, OpenAi/Gemini LLM, Document Parser, WhatsApp Business.
-* **Note on RAG:** To scale this into a true semantic vector search (RAG) system, connect the document parser node to an external vector database (such as Qdrant or Pinecone), or enable the `pgvector` extension on your VPS's native PostgreSQL instance.
-* **Note on WhatsApp:** This workflow requires a verified Meta Business Account and pre-approved WhatsApp message templates.
+### 2. B2B Cold Outreach Email Generator (`B2B Cold Outreach Email Generator (2).json`)
+A high-volume outreach engine that automatically researches target companies, drafts hyper-personalized B2B cold emails using LLMs, and queues them for delivery.
+* **Nodes used:** HTTP Request (Data Enrichment/Scraping), OpenAI/Gemini (Personalization Engine), Switch Node, Email/SMTP/Resend Node.
+* **Production Note:** Ensure you connect this workflow to a verified outreach infrastructure (like Resend, SendGrid, or a dedicated Google Workspace SMTP) with proper SPF/DKIM records to avoid spam folders.
 
 ---
 
@@ -38,7 +37,7 @@ An AI-powered customer support flow that references internal documents to answer
 3. Click **Create workflow** in the top right.
 4. Click the **three dots (menu)** in the top right of the canvas.
 5. Select **Import from file** and upload the downloaded JSON.
-6. Set your credentials for the nodes (databases, APIs, Slack) and toggle the workflow to **Active**.
+6. Set your API credentials for the nodes (Meta, OpenAI/Gemini, Email providers) and toggle the workflow to **Active**.
 
 ---
 
