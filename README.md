@@ -23,10 +23,11 @@ An advanced, multi-modal AI customer support flow capable of handling inbound te
 * **Nodes used:** Webhook, Advanced AI (OpenAI/Gemini), Code Node (Binary data parsing for PDFs/Images), WhatsApp Business Platform.
 * **Production Note:** The WhatsApp Business Platform requires an official Meta Developer Account, business verification, and pre-approved message templates. 
 
-### 2. B2B Cold Outreach Email Generator (`B2B Cold Outreach Email Generator (2).json`)
-A high-volume outreach engine that automatically researches target companies, drafts hyper-personalized B2B cold emails using LLMs, and queues them for delivery.
-* **Nodes used:** HTTP Request (Data Enrichment/Scraping), OpenAI/Gemini (Personalization Engine), Switch Node, Email/SMTP/Resend Node.
-* **Production Note:** Ensure you connect this workflow to a verified outreach infrastructure (like Resend, SendGrid, or a dedicated Google Workspace SMTP) with proper SPF/DKIM records to avoid spam folders.
+**2. B2B Cold Outreach Email Generator (B2B Cold Outreach Email Generator (2).json)**
+
+A high-volume outreach engine that automatically researches target companies, drafts hyper-personalized B2B cold emails using open-source models, and populates them directly into your Gmail drafts queue.
+* **Nodes used:** HTTP Request (Data Enrichment/Scraping), Groq (Llama 3.3 Personalization Engine), Switch Node, Gmail Node.
+* **Production Note:** This workflow is configured to safely output to Gmail drafts for manual review. For scaling to fully automated outbound delivery, ensure you route production traffic through dedicated secondary domains with properly configured SPF, DKIM, and DMARC records to protect your sender reputation.
 
 ---
 
