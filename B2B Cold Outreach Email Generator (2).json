@@ -156,7 +156,7 @@
         "columns": {
           "mappingMode": "defineBelow",
           "value": {
-            "Email": "nefro992@gmail.com"
+            "Email": "YOUR_EMAIL@DOMAIN.COM"
           },
           "matchingColumns": [
             "Email"
