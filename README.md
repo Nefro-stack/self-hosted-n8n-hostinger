@@ -6,11 +6,11 @@ This repository contains production-ready, cloneable n8n workflow templates desi
 
 Instead of manually configuring Docker, Traefik, PostgreSQL, and SSL certs via the terminal, this architecture uses Hostinger's pre-configured **Ubuntu 24.04 with n8n** VPS template.
 
-1. Pick a KVM plan on [Hostinger VPS](https://www.hostinger.com/self-hosted-n8n).
+1. Pick a KVM plan on [Hostinger VPS]([https://www.hostinger.com/self-hosted-n8n](https://www.hostg.xyz/aff_c?offer_id=48&aff_id=239394&url_id=4660)).
 2. Select the **Ubuntu 24.04 with n8n** template during setup.
 3. Access your instance at `https://n8n.[your-vps-hostname]` and complete the admin setup wizard.
 
-For advanced configurations, environment variables, or queue-mode scaling, refer to the [Official Hostinger n8n Template Guide](https://www.hostinger.com/support/10473267-how-to-use-the-n8n-vps-template-at-hostinger/).
+For advanced configurations, environment variables, or queue-mode scaling, refer to the [Official Hostinger n8n Template Guide]((https://www.hostg.xyz/aff_c?offer_id=48&aff_id=239394&url_id=4660)).
 
 ---
 
