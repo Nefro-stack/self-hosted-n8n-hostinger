@@ -1,45 +1,66 @@
-# Self-Hosted n8n Workflow Templates (Hostinger VPS Optimized)
+# Self-Hosted n8n Architecture & Workflow Blueprints (Hostinger VPS)
 
-This repository contains production-ready, cloneable n8n workflow templates designed to run on a flat-cost, self-hosted Hostinger VPS. By migrating your heavy AI and outreach pipelines off managed platforms (like Zapier, Make, or n8n Cloud), you can run unlimited executions without usage-metered billing.
+[![Substack Article](https://img.shields.io/badge/ApexQuant-Substack_Deep--Dive-FF6700?style=for-the-badge&logo=substack)](https://apexquant.substack.com/p/d8122c0f-3e26-459f-8606-e2c849ead443)
+[![Hostinger VPS](https://img.shields.io/badge/Infrastructure-Hostinger_KVM2_VPS-673DE6?style=for-the-badge&logo=hostinger)](https://www.hostg.xyz/aff_c?offer_id=48&aff_id=239394&url_id=4660)
+[![n8n Community](https://img.shields.io/badge/Orchestration-n8n_Community-EA4B71?style=for-the-badge&logo=n8n)](https://n8n.io)
 
-## 🚀 Infrastructure Setup
-
-Instead of manually configuring Docker, Traefik, PostgreSQL, and SSL certs via the terminal, this architecture uses Hostinger's pre-configured **Ubuntu 24.04 with n8n** VPS template.
-
-1. Pick a KVM plan on [Hostinger VPS]([https://www.hostinger.com/self-hosted-n8n](https://www.hostg.xyz/aff_c?offer_id=48&aff_id=239394&url_id=4660)).
-2. Select the **Ubuntu 24.04 with n8n** template during setup.
-3. Access your instance at `https://n8n.[your-vps-hostname]` and complete the admin setup wizard.
-
-For advanced configurations, environment variables, or queue-mode scaling, refer to the [Official Hostinger n8n Template Guide]((https://www.hostg.xyz/aff_c?offer_id=48&aff_id=239394&url_id=4660)).
+This repository contains the production-ready n8n workflow blueprints and deployment architecture featured in the [ApexQuant Substack guide](https://apexquant.substack.com/p/d8122c0f-3e26-459f-8606-e2c849ead443): **"I Replaced an Expensive Make.com Bill with a $8.79/mo Self-Hosted n8n on Hostinger VPS"**.
 
 ---
 
-## 📂 Included Workflow Templates
+## 🚀 Quick Start: Deployment on Hostinger VPS
 
-To import these workflows directly into your self-hosted n8n canvas, download the JSON files from this repository:
+Rather than manually installing Docker, Traefik, or PostgreSQL via SSH, this setup utilizes Hostinger's pre-configured **Ubuntu 24.04 with n8n** template.
 
-### 1. WhatsApp AI Chatbot with Text, Image, & PDF Automation (`whatsapp-ai-chatbot-text-image-pdf-automation.json`)
-An advanced, multi-modal AI customer support flow capable of handling inbound text messages, processing user-uploaded images/PDFs, and returning context-aware AI responses via WhatsApp.
-* **Nodes used:** Webhook, Advanced AI (OpenAI/Gemini), Code Node (Binary data parsing for PDFs/Images), WhatsApp Business Platform.
-* **Production Note:** The WhatsApp Business Platform requires an official Meta Developer Account, business verification, and pre-approved message templates. 
+### 1. Provision Your Server
+Deploy a [Hostinger KVM2 VPS ($8.79/mo)](https://www.hostg.xyz/aff_c?offer_id=48&aff_id=239394&url_id=4660) selecting the **n8n** operating system template during checkout. 
 
-**2. B2B Cold Outreach Email Generator (B2B Cold Outreach Email Generator (2).json)**
+> 💡 **Tip:** Choosing a 12-month or 24-month plan includes a free custom domain for the first year, providing the best long-term value for production environments.
 
-A high-volume outreach engine that automatically researches target companies, drafts hyper-personalized B2B cold emails using open-source models, and populates them directly into your Gmail drafts queue.
-* **Nodes used:** HTTP Request (Data Enrichment/Scraping), Groq (Llama 3.3 Personalization Engine), Switch Node, Gmail Node.
-* **Production Note:** This workflow is configured to safely output to Gmail drafts for manual review. For scaling to fully automated outbound delivery, ensure you route production traffic through dedicated secondary domains with properly configured SPF, DKIM, and DMARC records to protect your sender reputation.
+### 2. Initial Setup & Access
+1. Once provisioned, complete the setup wizard in your Hostinger hPanel.
+2. Navigate to `https://n8n.[your-domain].com` to set up your primary admin account.
+3. Your stack (n8n, PostgreSQL, Traefik SSL reverse proxy) runs out of the box.
 
----
-
-## 📥 How to Import to n8n
-
-1. Download the `.json` workflow file you want to use from this repository.
-2. Open your self-hosted n8n dashboard.
-3. Click **Create workflow** in the top right.
-4. Click the **three dots (menu)** in the top right of the canvas.
-5. Select **Import from file** and upload the downloaded JSON.
-6. Set your API credentials for the nodes (Meta, OpenAI/Gemini, Email providers) and toggle the workflow to **Active**.
+### 3. Maintenance & Version Updates
+Updating your n8n instance requires zero terminal commands. Navigate to **Docker Manager** inside your Hostinger hPanel and click **Update** to pull and deploy the latest official image seamlessly.
 
 ---
 
-*Maintained by Pratik Batha at [ApexQuant](https://apexquant.substack.com).*
+## 📦 Included Workflow Blueprints
+
+You can find the raw `.json` workflow files in the repository root. Import them directly into your n8n canvas via `Workflows` -> `Import from File`.
+
+### 1. B2B Cold Outreach Generator (`B2B Cold Outreach Email Generator (2).json`)
+* **Core Engine:** Analyzes incoming webhook leads using Groq (Llama 3.3).
+* **Logic Flow:** Filters low-fit prospects via a `Switch` node and generates personalized draft emails directly inside Gmail for team review.
+* **Production Note:** Always use dedicated outbound email infrastructure (Resend, SendGrid, Mailgun) on secondary domains with properly configured SPF/DKIM/DMARC records for high-volume delivery.
+
+### 2. WhatsApp Multi-Modal AI Support Agent (`whatsapp-ai-chatbot-text-image-pdf-automation.json`)
+* **Core Engine:** Receives inbound customer messages via WhatsApp Webhooks and processes text, receipts, and PDF binary attachments.
+* **Logic Flow:** Generates context-aware responses using multi-modal LLM nodes and formats replies back to the user.
+* **Production Note:** Requires an official Meta Developer account and WhatsApp Business verification. For document retrieval (RAG), connect an external vector database (e.g., Pinecone or Qdrant) as native pgvector is not pre-installed on standard PostgreSQL templates.
+
+---
+
+## ⚡ Unit Economics Comparison
+
+| Platform | Monthly Cost (50,000 Ops/Mo) | Scaling Model |
+| :--- | :--- | :--- |
+| **Zapier (Pro)** | ~$299/mo | Per task action |
+| **n8n Cloud (Pro)** | ~$150–$200/mo | Per execution pack |
+| **Make.com (Core)** | ~$78/mo | Per operation credit |
+| **Hostinger VPS (KVM2)** | **$8.79/mo** | **Flat resource cost (Unlimited Ops)** |
+
+---
+
+## 🔗 Resources & References
+
+* **Deploy Hostinger VPS:** [Get Hostinger KVM2 ($8.79/mo)](https://www.hostg.xyz/aff_c?offer_id=48&aff_id=239394&url_id=4660)
+* **Read the Full Architectural Guide:** [ApexQuant Substack Blueprint](https://apexquant.substack.com/p/d8122c0f-3e26-459f-8606-e2c849ead443)
+* **Official Hostinger Template Docs:** [Hostinger VPS n8n Setup](https://www.hostg.xyz/aff_c?offer_id=48&aff_id=239394&url_id=4660)
+
+---
+
+## ⚖️ License
+Distributed under the MIT License. Built for agency owners and technical founders by [ApexQuant](https://apexquant.substack.com).
